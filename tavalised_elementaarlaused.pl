@@ -8,57 +8,42 @@
 %%% Nullkohalised elementaarlaused
 
 %% 1. (lk 77)
-s --> v_a_1.
+% V = Müristab.
 
-v_a_1 --> v_müristama.
-v_müristama --> [v_müristama].
+s --> v_a_1(Arv).
+v_a_1(Arv) --> v(Isik,Arv).
 
 
 %% 1.1. (lk 77)
-s --> n(nom), v_a_1_1.
-s -->         v_a_1_1.
-v_a_1_1 --> v_hämarduma.
-v_a_1_1 --> v_iiveldama.
-v_a_1_1 --> v_müristama.
-v_a_1_1 --> v_tuulama.
-v_a_1_1 --> v_tõmbama.
+% V = hämarduma (Hämardub, Ruum hämardus ) . iiveldama (Iivel­dab, 
+% Süda iiveldab), müristama (Müristab, Pikne müristab), tuu­lama (Tuulab, 
+% Ilm tuulab), tõmbama (Tõmbab, Tuul tõmbab) jne.
 
-v_hämarduma --> [v_hämarduma].
-v_iiveldama --> [v_iiveldama].
-v_müristama --> [v_müristama].
-v_tuulama   --> [v_tuulama].
-v_tõmbama   --> [v_tõmbama].
+s --> np(nom,Arv), v_a_1_1(Arv).
+s -->              v_a_1_1(Arv).
+v_a_1_1(Arv) --> v(Isik,Arv).
 
 
 %% 1.2. (lk 77)
-s -->         v_a_1_2.
-s --> n(nom), v_a_1_2.
-s --> n(nom), v_a_1_2, n(ngp).
-s --> n(nom), v_a_1_2, n(ngp), a(tr).
+% V = kahutama (Kahutab, Öö külm kahutas tee) , külmetama (Kül­metab,
+% Öö külmetab, Öö külmetab maa) , sulatama (Sulatab, Päike
+% sulatab maa pehmeks).
 
-v_a_1_2 --> v_kahutama.
-v_a_1_2 --> v_külmetama.
-v_a_1_2 --> v_sulatama.
-
-v_kahutama  --> [v_kahutama].
-v_külmetama --> [v_külmetama].
-v_sulatama  --> [v_sulatama].
-
+s -->              v_a_1_2(Arv).
+s --> np(nom,Arv), v_a_1_2(Arv).
+s --> np(nom,Arv), v_a_1_2(Arv), np(ngp, SArv).
+s --> np(nom,Arv), v_a_1_2(Arv), np(ngp, SArv), ap(tr, SArv).
+v_a_1_2(Arv) --> v(Isik,Arv).
 
 %% 1.3. (lk 77)
-s -->        v_a_1_3.
-s -->        v_a_1_3, n(part).
-s --> n(di), v_a_1_3, n(part).
+% V = sadama (Sadas, Sadas vihma, Mantlile sadas vihma), tibama (Tibab,
+% Tibas vihma), tibutama (Tibutab külma vihma), tuis­kama (Tuiskab,
+% Tuiskab lund), udutama (Udutab, Udutas vihma) jne.
 
-v_a_1_3 --> v_sadama.
-v_a_1_3 --> v_tibama.
-v_a_1_3 --> v_tuiskama.
-v_a_1_3 --> v_udutama.
-
-v_sadama   --> [v_sadama].
-v_tibama   --> [v_tibama].
-v_tuiskama --> [v_tuiskama].
-v_udutama  --> [v_udutama].
+s -->        v_a_1_3(AArv).
+s -->        v_a_1_3(AArv), np(part, SArv).
+s --> n(di), v_a_1_3(AArv), np(part, SArv).
+v_a_1_3(Arv) --> v(Isik,Arv).
 
 
 %%% Ühekohalised elementaarlaused (lk 78)
@@ -78,31 +63,33 @@ v_a_2_0 --> [aeguma]; [hukkuma]; [ilmuma]; [kestma]; [klõbisema];
 
 
 
-
+%%% verbikategooriad
+%% väga lihtsustatud
+v(3,sg) --> ['_V_ b'].
+v(3,pl) --> ['_V_ vad'].
 
 %%% nimisõnafraaside struktuurid
 %% praegu puuduvad fraasistruktuurid
 %np(nom) --> a(nom), n(nom).
-%np(nom) --> n(nom).
+np(Kääne,Arv) --> n(Kääne,Arv).
 
 % 1. Substantiiv nominatiivis (N+nom)
-n(nom)      --> ['_S_ sg n'];
-                ['_S_ pl n'].
+n(nom,sg)   --> ['_S_ sg n'].
 % 2. Substantiiv pluurali nominatiivis (N+nom.+pl)
 n(nom,pl)   --> ['_S_ pl n'].
 % 3. Substantiiv genitiivis (N+gen)
-n(gen)      --> ['_S_ sg g'];
-                ['_S_ pl g'].
+n(gen,sg)      --> ['_S_ sg g'].
+n(gen,pl)      --> ['_S_ pl g'].
 % 4. Substantiiv singulari nominatiivis või genitiivis või parti­tiivis või pluurali nominatiivis või pluurali partitiivis (sümboliga N+ngp)
-n(ngp)  --> n(nom);
-            n(gen);
-            n(part).
+np(ngp,Arv)  --> n(nom,Arv);
+                 n(gen,Arv);
+                 n(part,Arv).
 % 5. Substantiiv nominatiivis või partitiivis (sümboliga N+np)
-n(np)   --> n(nom);
-            n(part).
+np(np,Arv)   --> n(nom,Arv);
+                 n(part,Arv).
 % 6. Substantiiv partitiivis (N+part)
-n(part)     --> ['_S_ sg p'];
-                ['_S_ pl p'].
+n(part,sg)     --> ['_S_ sg p'].
+n(part,pl)     --> ['_S_ pl p'].
 % 7. Substantiiv illatiivis (N+ill)
 n(ill)      --> ['_S_ sg ill'];
                 ['_S_ pl ill'].
@@ -136,20 +123,22 @@ n(abess)    --> ['_S_ sg ab'];
 % 17. Substantiiv komitatiivis (N+kom)
 n(kom)      --> ['_S_ sg kom'];
                 ['_S_ pl kom'].
+
+ap(Kääne,Arv) --> a(Kääne,Arv).
 % 18. Adjektiiv nominatiivis (A+nom)
-a(nom)      --> ['_A_ sg n'];
-                ['_A_ pl n'].
+a(nom,sg)      --> ['_A_ sg n'].
+a(nom,pl)      --> ['_A_ pl n'].
 % 19. Adjektiiv nominatiivis või genitiivis (A+ng)
-a(ng)       --> a(nom) ; a(gen).
+a(ng,Arv)       --> a(nom,Arv) ; a(gen,Arv).
 % 20. Adjektiiv partitiivis (A+part)
-a(part)     --> ['_A_ sg p'];
-                ['_A_ pl p'].
+a(part,sg)     --> ['_A_ sg p'].
+a(part,pl)     --> ['_A_ pl p'].
 % 21. Adjektiiv essiivis (A+ess)
-a(ess)      --> ['_A_ sg ess'];
-                ['_A_ pl ess'].
+a(ess,sg)      --> ['_A_ sg ess'].
+a(ess,pl)      --> ['_A_ pl ess'].
 % 22. Adjektiiv translatiivis (A+tr)
-a(tr)       --> ['_A_ sg tr'];
-                ['_A_ pl tr'].
+a(tr,sg)       --> ['_A_ sg tr'].
+a(tr,pl)       --> ['_A_ pl tr'].
 % 23. Numeraal translatiivis (Num+tr)
 
 
